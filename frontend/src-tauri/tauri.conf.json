@@ -1,0 +1,76 @@
+{
+    "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+    "productName": "Voga",
+    "version": "0.4.0",
+    "identifier": "com.voga.app",
+    "build": {
+        "frontendDist": "../out",
+        "devUrl": "http://localhost:3128",
+        "beforeDevCommand": "pnpm dev",
+        "beforeBuildCommand": "pnpm build"
+    },
+    "app": {
+        "windows": [
+            {
+                "label": "main",
+                "title": "Voga",
+                "width": 1180,
+                "height": 760,
+                "minWidth": 900,
+                "minHeight": 600,
+                "resizable": true,
+                "fullscreen": false,
+                "decorations": true
+            }
+        ],
+        "macOSPrivateApi": true,
+        "security": {
+            "assetProtocol": {
+                "enable": true,
+                "scope": ["$APPDATA/thumbs/**"]
+            },
+            "csp": {
+                "default-src": "'self'",
+                "style-src": "'self' 'unsafe-inline'",
+                "img-src": "'self' data: https: asset: http://asset.localhost",
+                "connect-src": "'self' ipc: http://ipc.localhost",
+                "media-src": "'self' blob:"
+            },
+            "capabilities": [
+                {
+                    "identifier": "main",
+                    "description": "Main window",
+                    "windows": ["main"],
+                    "permissions": [
+                        "core:default",
+                        "core:window:allow-start-dragging",
+                        "core:window:allow-toggle-maximize",
+                        "core:window:allow-set-theme",
+                        "opener:default",
+                        "store:default",
+                        "updater:default",
+                        "process:default"
+                    ]
+                }
+            ]
+        }
+    },
+    "bundle": {
+        "active": true,
+        "targets": ["deb", "appimage", "msi", "nsis", "app", "dmg"],
+        "createUpdaterArtifacts": true,
+        "externalBin": ["binaries/llama-helper"],
+        "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico", "icons/icon.png"],
+        "macOS": {
+            "entitlements": "entitlements.plist",
+            "signingIdentity": "-",
+            "hardenedRuntime": true
+        }
+    },
+    "plugins": {
+        "updater": {
+            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDU2REFDM0JFMDk1QzY2RUUKUldUdVpsd0p2c1BhVnIyeEg1ODdQK1BrZUpEcU9UN0c5UkFyckw2Sm1oOENqMmZ0MnRoa3phUTUK",
+            "endpoints": ["https://github.com/feliperohde/voga/releases/latest/download/latest.json"]
+        }
+    }
+}

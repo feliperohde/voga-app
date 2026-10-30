@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Voga listens to the microphone during a live session to transcribe and fact-check what a candidate says. The audio stays on this computer.</string>
+    <key>NSAudioCaptureUsageDescription</key>
+    <string>Voga listens to this computer's sound during a live session (a debate or live stream playing here) to transcribe and fact-check it. The audio stays on this computer.</string>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Voga connects to an Ollama server on your local network to index and answer questions about what it collected.</string>
+</dict>
+</plist>

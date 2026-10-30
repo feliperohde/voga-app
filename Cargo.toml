@@ -1,0 +1,14 @@
+[workspace]
+resolver = "2"
+members = ["frontend/src-tauri", "llama-helper"]
+
+# The built-in AI sidecar: small and fast to load
+[profile.release.package.llama-helper]
+opt-level = "s"
+
+# cidre turns an OSStatus into a Result with a transmute that debug builds'
+# enum check rejects for any error code, and the app aborts. The transmute is
+# sound in practice (Result<(), NonZeroI32> has the layout of i32), so the check
+# is off for cidre (as in Assunta).
+[profile.dev.package.cidre]
+debug-assertions = false

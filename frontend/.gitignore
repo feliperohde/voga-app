@@ -1,0 +1,10 @@
+/node_modules
+/.next/
+/.next-mock/
+/out/
+/out-mock/
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.env
+*.pem

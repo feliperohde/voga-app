@@ -1,0 +1,8 @@
+{
+  "productName": "Voga-demo",
+  "identifier": "com.voga.demo",
+  "build": {
+    "beforeBuildCommand": "pnpm build:mock",
+    "frontendDist": "../out-mock"
+  }
+}

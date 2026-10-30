@@ -1,0 +1,88 @@
+[package]
+name = "voga"
+version = "0.4.0"
+description = "Voga: acompanha figuras públicas, indexa o que dizem e fazem e mostra as conexões"
+authors = ["Felipe Rohde"]
+license = "GPL-3.0-only"
+repository = "https://github.com/feliperohde/voga"
+edition = "2021"
+rust-version = "1.80"
+
+[lib]
+name = "app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.3.0", features = [] }
+
+# build/onnxruntime.rs downloads and checks the ONNX Runtime DLL
+[target.'cfg(windows)'.build-dependencies]
+reqwest = { version = "0.11", features = ["blocking"] }
+zip = "2"
+sha2 = "0.10"
+
+[dependencies]
+anyhow = "1.0"
+async-trait = "0.1"
+chrono = { version = "0.4.31", features = ["serde"] }
+dirs = "5.0.1"
+env_logger = "0.11"
+log = "0.4"
+# rustls-tls: a second client for servers that only speak TLS 1.3 (macOS's native TLS stops at 1.2)
+reqwest = { version = "0.11", features = ["json", "stream", "multipart", "rustls-tls"] }
+ring = "0.17"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite", "chrono"] }
+tokio = { version = "1.32.0", features = ["full"] }
+tokio-util = "0.7"
+tracing = "0.1.40"
+url = "2.5.0"
+uuid = { version = "1.0", features = ["v4", "serde"] }
+tauri = { version = "2.6.2", features = ["macos-private-api", "tray-icon", "protocol-asset"] }
+tauri-plugin-process = "2.3.0"
+tauri-plugin-store = "2.4.0"
+tauri-plugin-updater = "2.3.0"
+dom_smoothie = "0.18.2"
+feed-rs = "3.0.0"
+texting_robots = "0.2.2"
+scraper = "0.27.0"
+sha2 = "0.10"
+tauri-plugin-opener = "2"
+csv = "1.4.0"
+zip = "2"
+# raw deflate of one entry read out of a remote ZIP (already in the tree through zip)
+flate2 = "1"
+pdf-extract = "0.12.1"
+futures-util = "0.3"
+base64 = "0.22"
+quick-xml = "0.42"
+sysinfo = "0.32"
+# Live sessions (src/live, from Assunta): capture, speech detection, voices
+cpal = "0.15.3"
+ringbuf = "0.4.8"
+rubato = "0.15.0"
+silero = { git = "https://github.com/emotechlab/silero-rs", rev = "26a6460" }
+pyannote-rs = "0.3.4"
+ort = "=2.0.0-rc.10"
+
+[features]
+# GPU of the live transcription on Windows/Linux (scripts/tauri-auto.js --llama=cuda|vulkan)
+whisper-cuda = ["whisper-rs/cuda"]
+whisper-vulkan = ["whisper-rs/vulkan"]
+
+[target.'cfg(any(target_os = "macos", windows, target_os = "linux"))'.dependencies]
+tauri-plugin-single-instance = "=2.3.7"
+
+# Metal only: CoreML needs an encoder model of its own next to each Whisper model
+[target.'cfg(target_os = "macos")'.dependencies]
+whisper-rs = { version = "0.13.2", features = ["metal", "whisper-cpp-log"] }
+# The computer's sound (Core Audio process tap, macOS 14.2+)
+cidre = { git = "https://github.com/yury/cidre", rev = "a9587fa", features = ["av"] }
+
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+whisper-rs = { version = "0.13.2", features = ["whisper-cpp-log"] }
+
+# The ONNX Runtime DLL is bundled next to the app (build.rs)
+[target.'cfg(windows)'.dependencies]
+ort = { version = "=2.0.0-rc.10", features = ["load-dynamic"] }

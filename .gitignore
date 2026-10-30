@@ -1,0 +1,13 @@
+# The global gitignore of this machine hides every scripts/ folder: these are part of the repo
+!scripts/
+!frontend/scripts/
+
+/target
+node_modules/
+.DS_Store
+*.pem
+.env
+.serena/
+
+# Built by scripts/tauri-auto.js (the built-in models' sidecar)
+frontend/src-tauri/binaries/
