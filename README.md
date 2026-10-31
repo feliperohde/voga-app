@@ -6,6 +6,29 @@ O que a IA encontra é sugestão: só conta o que uma pessoa confirmar.
 
 **Site:** [github.com/feliperohde/voga](https://github.com/feliperohde/voga) (página em [feliperohde.github.io/voga](https://feliperohde.github.io/voga/)). A versão atual, para Mac com Apple Silicon (M1 ou mais novo), fica em [Releases](https://github.com/feliperohde/voga/releases/latest).
 
+![Sessão ao vivo do Voga: enquanto a deputada fala, a transcrição separa as vozes e cada afirmação vira um cartão de possível fato, possível fake ou sem registro, com o registro citado.](.github/readme/ao-vivo.gif)
+
+*Ao vivo, na demonstração do Voga: pessoas, partidos e empresas das telas são fictícios.*
+
+<table>
+  <tr>
+    <td width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset=".github/readme/claims-dark.webp">
+        <img src=".github/readme/claims-light.webp" alt="Tela Promessas: a promessa de votar pela simplificação dos impostos, com duas possíveis contradições, cada uma com a votação, o motivo e os botões Confirmar e Rejeitar.">
+      </picture>
+      <br><b>Promessas:</b> cada promessa com as palavras exatas e o registro que pode cumpri-la ou contradizê-la.
+    </td>
+    <td width="50%">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset=".github/readme/map-dark.webp">
+        <img src=".github/readme/map-light.webp" alt="Mapa com uma gráfica aberta no painel: cadastro da Receita, uma sanção do CEIS, o sócio e os pagamentos de gabinete, de emenda e de contrato da prefeitura.">
+      </picture>
+      <br><b>Mapa:</b> quem pagou quem, com o cadastro e as sanções de cada empresa.
+    </td>
+  </tr>
+</table>
+
 ## O que o Voga faz
 
 - **Coleta** páginas, feeds RSS, legendas do YouTube, posts do Bluesky e do Mastodon, diários oficiais municipais (Querido Diário) e dados oficiais: votações e projetos da Câmara e do Senado, candidaturas e planos de governo do TSE, emendas parlamentares federais e estaduais, compras e contratos de prefeituras (PNCP).
