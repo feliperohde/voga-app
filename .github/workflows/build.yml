@@ -81,6 +81,8 @@ jobs:
           args=(--llama=vulkan --bundles ${{ matrix.bundles }})
           if [ "$RUNNER_OS" = Windows ]; then
             export CMAKE_GENERATOR=Ninja
+            # Git Bash's /usr/bin/link.exe would shadow MSVC's linker, which sits next to cl.exe
+            export PATH="$(dirname "$(which cl)"):$PATH"
           fi
           if [ "$RUNNER_OS" = Linux ]; then
             args+=(--config '{"bundle":{"linux":{"deb":{"depends":["libvulkan1"]}}}}')
