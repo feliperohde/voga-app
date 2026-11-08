@@ -25,7 +25,9 @@ jobs:
             files: |
               target/release/bundle/deb/*.deb
               target/release/bundle/appimage/*.AppImage*
-          - os: windows-latest
+          # 2022: VS 2022. The VS 2026 image (windows-latest, windows-2025) runs the install step of
+          # llama.cpp's Vulkan shader generator before its configure step ends, and the build fails
+          - os: windows-2022
             bundles: nsis,msi
             files: |
               target/release/bundle/nsis/*.exe*
@@ -42,7 +44,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev \
-            libxdo-dev libssl-dev libasound2-dev build-essential cmake clang patchelf file
+            libxdo-dev libssl-dev libasound2-dev libvulkan-dev build-essential cmake clang patchelf file
 
       # Headers, loader and glslc to compile llama.cpp's and whisper.cpp's Vulkan shaders.
       # LunarG keeps only the latest ~17 SDKs downloadable: bump this one when it goes
@@ -73,6 +75,9 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: |
           args=(--llama=vulkan --bundles ${{ matrix.bundles }})
+          if [ "$RUNNER_OS" = Linux ]; then
+            args+=(--config '{"bundle":{"linux":{"deb":{"depends":["libvulkan1"]}}}}')
+          fi
           if [ -z "$TAURI_SIGNING_PRIVATE_KEY" ]; then
             unset TAURI_SIGNING_PRIVATE_KEY TAURI_SIGNING_PRIVATE_KEY_PASSWORD
             args+=(--config '{"bundle":{"createUpdaterArtifacts":false}}')
