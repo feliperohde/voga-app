@@ -25,8 +25,7 @@ jobs:
             files: |
               target/release/bundle/deb/*.deb
               target/release/bundle/appimage/*.AppImage*
-          # 2022: VS 2022. The VS 2026 image (windows-latest, windows-2025) runs the install step of
-          # llama.cpp's Vulkan shader generator before its configure step ends, and the build fails
+          # Pinned like Ubuntu, so the image (Visual Studio, CMake) does not change under the build
           - os: windows-2022
             bundles: nsis,msi
             files: |
@@ -54,6 +53,11 @@ jobs:
           vulkan_version: 1.4.321.1
           cache: true
 
+      # CMake builds (llama.cpp, whisper.cpp) with Ninja on Windows: MSBuild runs the install step of
+      # their Vulkan shader generator from two projects at once, before its configure step ends
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
@@ -75,6 +79,9 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: |
           args=(--llama=vulkan --bundles ${{ matrix.bundles }})
+          if [ "$RUNNER_OS" = Windows ]; then
+            export CMAKE_GENERATOR=Ninja
+          fi
           if [ "$RUNNER_OS" = Linux ]; then
             args+=(--config '{"bundle":{"linux":{"deb":{"depends":["libvulkan1"]}}}}')
           fi
