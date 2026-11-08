@@ -14,6 +14,7 @@ on:
 
 jobs:
   build:
+    name: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -43,10 +44,12 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev \
             libxdo-dev libssl-dev libasound2-dev build-essential cmake clang patchelf file
 
-      # Headers, loader and glslc to compile llama.cpp's and whisper.cpp's Vulkan shaders
+      # Headers, loader and glslc to compile llama.cpp's and whisper.cpp's Vulkan shaders.
+      # LunarG keeps only the latest ~17 SDKs downloadable: bump this one when it goes
+      # (https://vulkan.lunarg.com/sdk/versions/windows.json and linux.json must both list it)
       - uses: jakoch/install-vulkan-sdk-action@v1
         with:
-          vulkan_version: 1.3.290.0
+          vulkan_version: 1.4.321.1
           cache: true
 
       - uses: pnpm/action-setup@v4
